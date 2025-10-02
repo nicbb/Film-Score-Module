@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Supervision Exercise</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #fdfdfd;
+            color: #1a1a1a;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 30px;
+        }
+
+        .header {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: -0.02em;
+        }
+
+        .scene-box {
+            background: #f9f9f9;
+            padding: 40px;
+            margin-bottom: 50px;
+            border-radius: 2px;
+        }
+
+        .scene-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        .layers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .layer {
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 1px;
+        }
+
+        .layer-title {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .layer-content {
+            font-size: 0.8rem;
+            color: #333;
+        }
+
+        .exercise-section {
+            margin-bottom: 50px;
+        }
+
+        .exercise-title {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .exercise-prompt {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            padding: 25px;
+            border-radius: 2px;
+            margin-bottom: 20px;
+        }
+
+        .prompt-text {
+            font-size: 0.85rem;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .text-area {
+            width: 100%;
+            min-height: 120px;
+            padding: 20px;
+            border: 1px solid #e8e8e8;
+            background: #fdfdfd;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 300;
+            line-height: 1.6;
+            resize: vertical;
+            border-radius: 2px;
+        }
+
+        .text-area:focus {
+            outline: none;
+            border-color: #666;
+        }
+
+        .text-area::placeholder {
+            color: #aaa;
+            font-weight: 300;
+        }
+
+        .word-bank {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .word-item {
+            padding: 8px 12px;
+            background: #f9f9f9;
+            border: 1px solid #e8e8e8;
+            text-align: center;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .word-item:hover {
+            background: #f0f0f0;
+        }
+
+        .upload-section {
+            margin: 20px 0;
+        }
+
+        .file-input {
+            margin-bottom: 10px;
+        }
+
+        .file-note {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .submit-area {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .submit-btn {
+            padding: 15px 40px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 300;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .output-section {
+            margin-top: 50px;
+            padding: 40px;
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 2px;
+            display: none;
+        }
+
+        .output-section.show {
+            display: block;
+        }
+
+        .output-title {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .scoring-document {
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .scoring-document h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 25px 0 10px 0;
+            color: #1a1a1a;
+        }
+
+        .scoring-document p {
+            margin-bottom: 15px;
+        }
+
+        .copy-btn {
+            margin-top: 25px;
+            padding: 10px 25px;
+            background: #f9f9f9;
+            border: 1px solid #e8e8e8;
+            font-size: 0.75rem;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .copy-btn:hover {
+            background: #f0f0f0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            .layers {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Music supervision exercise: The Merger</h1>
+        </div>
+
+        <div class="scene-box">
+            <div class="scene-text">
+                Alex and Blake, former creative partners and co-founders, meet to discuss selling their sustainable tech startup to a major corporation. The conversation appears to be about valuation and terms. Underneath what happens when shared dreams harden into separate ambitions, and intimacy becomes something you have to manage rather than simply feel.
+            </div>
+            
+            <div style="text-align: center; padding: 20px; border: 1px solid #ddd; margin-top: 30px; font-family: monospace; font-size: 18px; line-height: 1.5;">
+                ○<span style="margin: 0 20px;">▬▬▬</span>○<br>
+                <div style="font-size: 12px; margin-top: 10px; color: #666;">coffee shop</div>
+            </div>
+            
+            <div class="layers">
+                <div class="layer">
+                    <div class="layer-title">Surface layer</div>
+                    <div class="layer-content">Business negotiation, merger details, practical concerns</div>
+                </div>
+                <div class="layer">
+                    <div class="layer-title">Temporality</div>
+                    <div class="layer-content">Past: Late-night conversations about changing everything<br>Future: The weight of what success actually costs</div>
+                </div>
+                <div class="layer">
+                    <div class="layer-title">Existential layer</div>
+                    <div class="layer-content">The gap between intention and outcome. Can intimacy survive achievement? The loneliness of getting what you wanted</div>
+                </div>
+                <div class="layer">
+                    <div class="layer-title">Subtext layer</div>
+                    <div class="layer-content">Love disguised as disappointment. Recognition without reconciliation. The vulnerability of knowing someone too well</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <div class="exercise-title">1. Orchestration approach</div>
+            <div class="exercise-prompt">
+                <div class="prompt-text">
+                    Describe your instrumentation choices and why they serve this particular emotional landscape. These are prompts to help you think through the possibilities.
+                </div>
+                <div class="word-bank">
+                    <div class="word-item">chamber strings</div>
+                    <div class="word-item">solo piano (prepared)</div>
+                    <div class="word-item">processed vocals</div>
+                    <div class="word-item">analog synthesis</div>
+                    <div class="word-item">solo cello</div>
+                    <div class="word-item">ambient textures</div>
+                    <div class="word-item">field recordings</div>
+                    <div class="word-item">bespoke lead instrument</div>
+                </div>
+                <textarea 
+                    class="text-area" 
+                    id="orchestration" 
+                    placeholder="Example: I would use a solo prepared piano to represent the mechanical nature of their current conversation, with occasional warm analog synth pads underneath that only appear when their shared past briefly surfaces..."
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <div class="exercise-title">2. Choose your scoring pathway</div>
+            <div class="exercise-prompt">
+                <div class="prompt-text">
+                    Select at least one approach that will guide your musical decisions throughout the scene.
+                </div>
+                <div class="word-bank">
+                    <div class="word-item">suspended time</div>
+                    <div class="word-item">memory fragments</div>
+                    <div class="word-item">rhythmic uncertainty</div>
+                    <div class="word-item">nostalgic echoes</div>
+                    <div class="word-item">progressing the narrative</div>
+                    <div class="word-item">elastic phrasing</div>
+                    <div class="word-item">stagnant pulses</div>
+                    <div class="word-item">rhythmic cells</div>
+                </div>
+                <textarea 
+                    class="text-area" 
+                    id="pathway" 
+                    placeholder="Describe your chosen approach and how it will shape the musical treatment of this scene..."
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <div class="exercise-title">3. Spotting</div>
+            <div class="exercise-prompt">
+                <div class="prompt-text">
+                    Break down the scene into musical segments and describe your approach for each. Consider duration and musical content.
+                </div>
+                <div style="margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 2px;">
+                    <div style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Examples:</div>
+                    <div style="font-size: 0.75rem; color: #444;">
+                        <strong>Opening 1 (0:00-0:30):</strong> Sparse piano, establishing distance<br>
+                        <strong>Business talk (0:30-2:00):</strong> Subtle strings, professional facade<br>
+                        <strong>Recognition moment (2:00-2:15):</strong> Music drops out completely
+                    </div>
+                </div>
+                <textarea 
+                    class="text-area" 
+                    id="spotting" 
+                    placeholder="List your musical segments with timings and brief descriptions..."
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <div class="exercise-title">4. Upload your cue</div>
+            <div class="exercise-prompt">
+                <div class="prompt-text">
+                    Upload your musical composition for this scene (audio file, MIDI, or demo recording).
+                </div>
+                <div class="upload-section">
+                    <input type="file" id="cueUpload" accept="audio/*,.mid,.midi" class="file-input">
+                    <div class="file-note">Accepted formats: MP3, WAV, AIFF, MIDI</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="exercise-section">
+            <div class="exercise-title">5. Philosophical approach</div>
+            <div class="exercise-prompt">
+                <div class="prompt-text">
+                    What is your overall philosophy for scoring this scene? How does music serve the deeper themes of intimacy, achievement, and the passage of time?
+                </div>
+                <textarea 
+                    class="text-area" 
+                    id="philosophy" 
+                    placeholder="Consider: How does music navigate the space between what's said and what's felt? What role does silence play? How do you score the loneliness of success without being manipulative?"
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="submit-area">
+            <button class="submit-btn" onclick="generateScoringDocument()">Generate scoring document</button>
+        </div>
+
+        <div class="output-section" id="outputSection">
+            <div class="output-title">Professional scoring document</div>
+            <div class="scoring-document" id="scoringDocument"></div>
+            <button class="copy-btn" onclick="copyToClipboard()">Copy to clipboard</button>
+        </div>
+    </div>
+
+    <script>
+        // Word bank functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('word-item')) {
+                const text = e.target.textContent;
+                const activeTextarea = document.activeElement;
+                
+                if (activeTextarea && activeTextarea.tagName === 'TEXTAREA') {
+                    const cursorPos = activeTextarea.selectionStart;
+                    const currentText = activeTextarea.value;
+                    const newText = currentText.slice(0, cursorPos) + text + currentText.slice(cursorPos);
+                    activeTextarea.value = newText;
+                    activeTextarea.focus();
+                    activeTextarea.setSelectionRange(cursorPos + text.length, cursorPos + text.length);
+                }
+            }
+        });
+
+        function generateScoringDocument() {
+            const orchestration = document.getElementById('orchestration').value;
+            const pathway = document.getElementById('pathway').value;
+            const spotting = document.getElementById('spotting').value;
+            const philosophy = document.getElementById('philosophy').value;
+
+            if (!orchestration || !pathway || !philosophy) {
+                alert('Please complete the orchestration, scoring pathway, and philosophical approach sections.');
+                return;
+            }
+
+            const document_content = `
+                <h3>Music Supervision Document: "The Merger"</h3>
+                <p><strong>Scene Duration:</strong> 6:00<br>
+                <strong>Genre:</strong> Psychological Drama<br>
+                <strong>Approach:</strong> Intimate dialogue underscore</p>
+
+                <h3>Orchestration Strategy</h3>
+                <p>${orchestration}</p>
+
+                <h3>Scoring Pathway</h3>
+                <p>${pathway}</p>
+
+                <h3>Spotting Notes</h3>
+                <p>${spotting || 'Musical segments and timing to be determined during pre-production'}</p>
+
+                <h3>Philosophical Framework</h3>
+                <p>${philosophy}</p>
+
+                <h3>Technical Notes</h3>
+                <p>• Keep dynamics subtle to preserve dialogue clarity<br>
+                • Use frequency space above 200Hz and below 8kHz carefully<br>
+                • Consider how silence functions as an active musical element<br>
+                • Score for the subtext, not the surface conversation</p>
+
+                <h3>Reference Materials</h3>
+                <p>Compare to dialogue scoring in: Marriage Story (Randy Newman), The Social Network (Trent Reznor), Her (Arcade Fire)</p>
+            `;
+
+            document.getElementById('scoringDocument').innerHTML = document_content;
+            document.getElementById('outputSection').classList.add('show');
+        }
+
+        function copyToClipboard() {
+            const content = document.getElementById('scoringDocument').innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
